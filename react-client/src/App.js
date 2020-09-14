@@ -71,6 +71,7 @@ class App extends React.Component {
   }
 
   send(destination, payload) {
+    this.setState({"error":null});
     this.client.send(destination, { "client-id": this.clientId }, JSON.stringify(payload));
   }
 

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
 import lombok.Getter;
-import net.mjg.mancalagame.controller.InvalidMessageException;
+import net.mjg.mancalagame.game.exceptions.InvalidMoveException;
 import net.mjg.mancalagame.game.exceptions.*;
 
 import java.util.Arrays;
@@ -52,6 +52,11 @@ public class GameState {
         this.currentPlayer = currentPlayer;
         this.stones = slots.clone();
     }
+    
+    public GameState(GameState other) {
+        this.currentPlayer = other.currentPlayer;
+        this.stones = other.stones;
+    }
 
     public int getStonesBySlotId(int slot) {
         return stones[slot];
@@ -62,7 +67,7 @@ public class GameState {
         return stones.clone();
     }
     
-    public void applyMove(GameMove move) throws InvalidMessageException {
+    public void applyMove(GameMove move) throws InvalidMoveException {
         if(move.getPlayer() != currentPlayer) {
             throw new MoveOutOfOrderException();
         }
@@ -137,7 +142,7 @@ public class GameState {
         result = 31 * result + Arrays.hashCode(stones);
         return result;
     }
-    
+
     @JsonPOJOBuilder(withPrefix = "")
     public static class GameStateBuilder { }
 }

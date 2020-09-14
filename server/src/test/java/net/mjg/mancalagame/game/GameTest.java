@@ -1,6 +1,6 @@
 package net.mjg.mancalagame.game;
 
-import net.mjg.mancalagame.controller.InvalidMessageException;
+import net.mjg.mancalagame.game.exceptions.InvalidMoveException;
 import net.mjg.mancalagame.game.exceptions.*;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class GameTest {
     
     @Test
-    public void whenPlayerMakesAMove_theySowTheirStonesInUpcomingPits() throws InvalidMessageException {
+    public void whenPlayerMakesAMove_theySowTheirStonesInUpcomingPits() throws InvalidMoveException {
         GameState game = new GameStateBuilder()
                 .addStonesToRed(0, 3)
                 .addStonesToRed(1, 1)
@@ -29,7 +29,7 @@ public class GameTest {
         .build());
     }
     @Test
-    public void whenPlayerEndsInTheirStore_theyGetAnotherMove() throws InvalidMessageException {
+    public void whenPlayerEndsInTheirStore_theyGetAnotherMove() throws InvalidMoveException {
         GameState game = new GameStateBuilder()
                 .setStartingPlayer(Player.Red)
                 .addStonesToRed(4, 2)
@@ -95,7 +95,7 @@ public class GameTest {
     }
     
     @Test
-    public void whenRedPassesOwnStore_theyAddStonesToBluePits() throws InvalidMessageException {
+    public void whenRedPassesOwnStore_theyAddStonesToBluePits() throws InvalidMoveException {
         GameState game = new GameStateBuilder()
                 .addStonesToRed(4, 3)
                 .build();
@@ -110,7 +110,7 @@ public class GameTest {
     }
     
     @Test
-    public void whenBluePassesOwnStore_theyAddStonesToRedPits() throws InvalidMessageException {
+    public void whenBluePassesOwnStore_theyAddStonesToRedPits() throws InvalidMoveException {
         GameState game = new GameStateBuilder()
                 .addStonesToBlue(5, 3)
                 .setStartingPlayer(Player.Blue)
@@ -126,7 +126,7 @@ public class GameTest {
     }
     
     @Test
-    public void whenRedLandsInOwnEmptyPit_theyCaptureOpposingPit() throws InvalidMessageException {
+    public void whenRedLandsInOwnEmptyPit_theyCaptureOpposingPit() throws InvalidMoveException {
         GameState game = new GameStateBuilder()
                 .addStonesToRed(1, 2)
                 .addStonesToBlue(2, 3) // this slot is opposite to 3
@@ -145,7 +145,7 @@ public class GameTest {
     }
     
     @Test
-    public void whenBlueLandsInOwnEmptyPit_theyCaptureOpposingPit() throws InvalidMessageException {
+    public void whenBlueLandsInOwnEmptyPit_theyCaptureOpposingPit() throws InvalidMoveException {
         GameState game = new GameStateBuilder()
                 .addStonesToBlue(1, 2)
                 .addStonesToRed(2, 3) // this slot is opposite to 3
@@ -165,7 +165,7 @@ public class GameTest {
     }
     
     @Test
-    public void whenRedPassesOpponentsStore_theySkipIt() throws InvalidMessageException {
+    public void whenRedPassesOpponentsStore_theySkipIt() throws InvalidMoveException {
         int lastPit = GameState.PITS_PER_PLAYER - 1;
         GameState game = new GameStateBuilder()
                 .addStonesToRed(0, 1)
@@ -188,7 +188,7 @@ public class GameTest {
     }
     
     @Test
-    public void whenBluePassesOpponentsStore_theySkipIt() throws InvalidMessageException {
+    public void whenBluePassesOpponentsStore_theySkipIt() throws InvalidMoveException {
         int lastPit = GameState.PITS_PER_PLAYER - 1;
         GameState game = new GameStateBuilder()
                 .addStonesToBlue(lastPit, 8)

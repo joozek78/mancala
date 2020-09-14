@@ -25,16 +25,6 @@ public class MessageSerializationTests {
         this.mapper = new ObjectMapper();
     }
 
-    @Test
-    public void messageContainerCanWrapAndUnwrap() throws JsonProcessingException {
-        var message = new ErrorMessage("error");
-        var wrapped = MessageContainer.wrap(message, mapper);
-
-        var unwrapped = wrapped.unwrap(mapper);
-
-        Assertions.assertThat(unwrapped).isEqualTo(message);
-    }
-
     @TestFactory
     public Collection<DynamicTest> serializeThenDeserialize() throws JsonProcessingException {
         var cases = Arrays.asList(
@@ -42,8 +32,7 @@ public class MessageSerializationTests {
                 new Case<>(() -> new JoinGameMessage("id"), JoinGameMessage.class),
                 new Case<>(() -> new GameStateMessage(new GameState(), new Score(true, 1, 2)), GameStateMessage.class),
                 new Case<>(() -> new MoveMessage(1, Player.Blue), MoveMessage.class),
-                new Case<>(() -> new NewGameMessage(), NewGameMessage.class),
-                new Case<>(() -> new GameFinishedMessage(new Score(false, 1,2)), GameFinishedMessage.class)
+                new Case<>(() -> new NewGameMessage(), NewGameMessage.class)
         );
 
         return cases.stream().map(c -> DynamicTest.dynamicTest(c.clazz.getSimpleName(), () -> {
